@@ -167,7 +167,6 @@ int main(void) {
         scanf("%s", check_y);
         if (strcmp(check_y, "y") == 0 || strcmp(check_y, "Y") == 0) {
           sprintf(query, "CALL Delete_ID(%d)", todo_number);
-          printf("%s\n", query);
           if (mysql_query(conn, query) == 0) {
             printf("\n----------------------------------------------\n");
             printf("삭제 성공\n");
@@ -178,6 +177,10 @@ int main(void) {
             printf("%s\n", mysql_error(conn));
             printf("----------------------------------------------\n");
           }
+        } else {
+          printf("\n----------------------------------------------\n");
+          printf("삭제 취소\n");
+          printf("----------------------------------------------\n");
         }
       } else {
         printf("\n----------------------------------------------\n");
