@@ -1,0 +1,1 @@
+cd "c:\Users\sangn\OneDrive\coding\project\TODO_C\" && gcc main.c -o main -I"C:/Program Files/MySQL/MySQL Server 8.0/include" -L"C:/Program Files/MySQL/MySQL Server 8.0/lib" -llibmysql
