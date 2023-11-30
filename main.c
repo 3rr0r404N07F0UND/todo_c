@@ -12,7 +12,7 @@ int main(void) {
     return 1;
   }
 
-  if (mysql_real_connect(conn, "localhost", "root", "", "todo_c", 3306, NULL, 0) == NULL ||
+  if (mysql_real_connect(conn, "localhost", "root", "404N07F0UND3rr0r", "todo_c", 3306, NULL, 0) == NULL ||
       mysql_options(conn, MYSQL_SET_CHARSET_NAME, "utf8mb4") != 0) {
     printf("mysql_real_connect() failed\n");
     printf("%s\n", mysql_error(conn));
@@ -33,7 +33,7 @@ int main(void) {
     printf("2: 추가\n");
     printf("3: 수정\n");
     printf("4: 삭제\n\n");
-    printf("작업을 선택하세요> ");
+    printf("작업> ");
     scanf("%d", &work_type);
 
     if (work_type > 4 || work_type == 0 || work_type < 0) {
@@ -46,7 +46,7 @@ int main(void) {
       MYSQL_RES *result = mysql_store_result(conn);
       MYSQL_ROW row;
 
-      printf("----------------------------------------------\n");
+      printf("\n----------------------------------------------\n");
 
       while ((row = mysql_fetch_row(result))) {
         for (register int i = 0; i < mysql_num_fields(result); i++) {
@@ -77,10 +77,12 @@ int main(void) {
 
       sprintf(query, "INSERT INTO todo_table (title, contents) VALUES ('%s', '%s')", title, contents);
       if (mysql_query(conn, query) == 0) {
-        printf("\n추가 성공\n");
+        printf("\n----------------------------------------------\n");
+        printf("추가 성공\n");
         printf("----------------------------------------------\n");
       } else {
-        printf("\n오류!\n");
+        printf("\n----------------------------------------------\n");
+        printf("오류!\n");
         printf("%s\n", mysql_error(conn));
         printf("----------------------------------------------\n");
       }
@@ -121,12 +123,15 @@ int main(void) {
         printf("내용> ");
         scanf("%65535s", contents);
 
-        sprintf(query, "UPDATE todo_table SET title = %s, contents = %s WHERE ID = %d", title, contents, todo_number);
+        sprintf(query, "UPDATE todo_table SET title = '%s', contents = '%s' WHERE ID = %d", title, contents,
+                todo_number);
         if (mysql_query(conn, query) == 0) {
-          printf("\n수정 성공\n");
+          printf("\n----------------------------------------------\n");
+          printf("수정 성공\n");
           printf("----------------------------------------------\n");
         } else {
-          printf("\n오류!\n");
+          printf("\n----------------------------------------------\n");
+          printf("오류!\n");
           printf("%s\n", mysql_error(conn));
           printf("----------------------------------------------\n");
         }
@@ -134,7 +139,9 @@ int main(void) {
         free(title);
         free(contents);
       } else {
-        printf("번호를 다시 확인하세요.");
+        printf("\n----------------------------------------------\n");
+        printf("번호를 다시 확인하세요.\n");
+        printf("----------------------------------------------\n");
       }
       free(query);
     } else if (work_type == 4) {
@@ -159,16 +166,23 @@ int main(void) {
         printf("정말로 삭제하겠습니까? [y/N]> ");
         scanf("%s", check_y);
         if (strcmp(check_y, "y") == 0 || strcmp(check_y, "Y") == 0) {
-          sprintf(query, "DELETE FROM todo_table WHERE ID = %d", todo_number);
+          sprintf(query, "CALL Delete_ID(%d)", todo_number);
+          printf("%s\n", query);
           if (mysql_query(conn, query) == 0) {
-            printf("\n삭제 성공\n");
+            printf("\n----------------------------------------------\n");
+            printf("삭제 성공\n");
             printf("----------------------------------------------\n");
           } else {
-            printf("\n오류!\n");
+            printf("\n----------------------------------------------\n");
+            printf("오류!\n");
             printf("%s\n", mysql_error(conn));
             printf("----------------------------------------------\n");
           }
         }
+      } else {
+        printf("\n----------------------------------------------\n");
+        printf("잘못된 번호\n");
+        printf("----------------------------------------------\n");
       }
     }
   }

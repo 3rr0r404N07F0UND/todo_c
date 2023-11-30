@@ -4,3 +4,14 @@ CREATE TABLE todo_table(
     title VARCHAR(255) COMMENT 'Title',
     contents TEXT COMMENT 'Contents'
 );
+
+CREATE PROCEDURE Delete_ID(IN todoID INT)
+BEGIN
+  DECLARE count INT;
+
+  DELETE FROM todo_table WHERE ID = todoID;
+
+  ALTER TABLE `todo_table` AUTO_INCREMENT=1;
+  SET @COUNT := 0;
+  UPDATE todo_table SET ID = @COUNT:=@COUNT+1;
+END
